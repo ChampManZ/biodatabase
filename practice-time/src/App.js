@@ -113,10 +113,18 @@ function App() {
       <Box key={key}>
         <h3>{element.name}</h3>
         <p>{element.info}</p>
-        <button>Delete</button>
+        <button onClick={() => deleteData(data[key].id)}>Delete</button>
       </Box>
     )
   })
+
+  const deleteData = async (id) => {
+    await fetch(`http://localhost:5000/studentInfo/${id}`, {
+      method: 'DELETE',
+    })
+
+    setData(data.filter((element)  => element.id !== id))
+  }
 
   const fetchDatabase = async () => {
     const res = await fetch('http://localhost:5000/studentInfo')
@@ -133,10 +141,6 @@ function App() {
 
     getData()
   }, [])
-
-  console.log(data.map((element) => {
-    return element.id
-  }))
 
   return (
     <Body background={bg}>
